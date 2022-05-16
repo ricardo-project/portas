@@ -18,68 +18,30 @@
             <div class="destino items"></div>
             <p>Selecione uma porta</p>
             <div>
-                <div class="pdiv and">AND</div>
-                <div class="pdiv or">OR</div>
-                <div class="pdiv xor">XOR</div>
-                <div class="pdiv nand">NAND</div>
-                <div class="pdiv nor">NOR</div>
-                <div class="pdiv xnor">XNOR</div>
-                <div class="pdiv not">NOT</div>
-            </div>
-            <div> <!-- AND -->
-                <svg width=100 height=100>
-                    <defs>
-                        <linearGradient id=G x1=0% y1=0% x2=0% y2=100%>
-                            <stop offset=0% style="stop-color: rgb(190 145 160); stop-opacity: 1" />
-                            <stop offset=100% style="stop-color: rgb(159 112 125); stop-opacity: 1" />
-                        </linearGradient>
-                        <polygon fill="url(#G)" id=p0></polygon> <!--Porta AND-->
-                        <polygon fill="url(#G)" id=p1></polygon> <!--Porta OR-->
-                        <polygon fill="url(#G)" id=p2></polygon> <!--Porta XOR-->
-                        <polygon fill="url(#G)" id=p3></polygon> <!--Porta NAND-->
-                        <polygon fill="url(#G)" id=p4></polygon> <!--Porta NOR-->
-                        <polygon fill="url(#G)" id=p5></polygon> <!--Porta XNOR-->
-                        <polygon fill="url(#G)" id=p6></polygon> <!--Porta NOT -->
-                    </defs>
-                    <use href="#p0"></use>
-                </svg>
-            </div>
-            <div> <!-- OR -->
-                <svg width=120 height=100>
-                    <use href="#p1"></use>
-                </svg>
-            </div>
-            <div> <!-- XOR -->
-                <svg width=140 height=100>
-                    <use href="#p2"></use>
-                </svg>
-            </div>
-            <div> <!-- NAND -->
-                <svg width=114 height=100>
-                    <use href="#p3"></use>
-                </svg>
-            </div>
-            <div> <!-- NOR -->
-                <svg width=134 height=100>
-                    <use href="#p4"></use>
-                </svg>
-            </div>
-            <div> <!-- XNOR -->
-                <svg width=154 height=100>
-                    <use href="#p5"></use>
-                </svg>
-            </div>
-            <div> <!-- NOT -->
-                <svg width=104 height=70>
-                    <use href="#p6"></use>
-                </svg>
+                <div class="pdiv and">
+                    <p>AND</p>
+                </div>
+                <div class="pdiv or">
+                    <p>OR</p>
+                </div>
+                <div class="pdiv xor">
+                    <p>XOR</p>
+                </div>
+                <div class="pdiv nand">
+                    <p>NAND</p>
+                </div>
+                <div class="pdiv nor">
+                    <p>NOR</p>
+                </div>
+                <div class="pdiv xnor">
+                    <p>XNOR</p>
+                </div>
+                <div class="pdiv not">
+                    <p>NOT</p>
+                </div>
             </div>
         </section>
-        <section class=space>
-            <svg width=20 height=20>
-                <use href="#p0"></use>
-            </svg>
-        </section>
+        <section class=space></section>
     </main>
 </body>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
