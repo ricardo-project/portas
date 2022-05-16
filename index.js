@@ -4,8 +4,19 @@ const pi = Math.PI
 let svg = $(".list svg"),
 polyg = $("polygon"),
 main = $("main"),
-P = new Array([], [], [], [], [], [], []),
-//hSVG = [],
+html = $("html")[0],
+style = $("style"),
+//P = new Array([], [], [], [], [], [], []),
+namep = new Array("and", "or", "xor", "nand", "nor", "xnor", "not"),
+pdiv = new Array(
+    "0px 0px, 0px 100px",
+    "",
+    "",
+    "0px 0px, 0px 100px",
+    "",
+    "",
+    ""
+),
 TXT = ["1", "‒"],
 spc = $(".space"),
 SVG = spc.find("svg"),
@@ -184,11 +195,16 @@ allI = new Array(
 })*/
 
 // Porta AND e NAND
-P[0] = P[0].concat([ [0,0], [0,100] ])
+//P[0] = P[0].concat([ [0,0], [0,100] ])
 for(let i = -90; i <= 90; i++) {
     const ang = i*pi/180
-    P[0].push([50 + 50*Math.cos(ang), 50 - 50*Math.sin(ang)])
-} P[3] = P[0].slice(0, 92).concat(ball(107, 50), P[0].slice(94, P[0].length))
+    pdiv[0] += ", " + (50 + 50*Math.cos(ang)) + "px " + (50 - 50*Math.sin(ang)) + "px"
+} style.html(`
+    :root {
+        --and: ` + pdiv[0] + `
+    }`)
+
+P[3] = P[0].slice(0, 92).concat(ball(107, 50), P[0].slice(94, P[0].length))
 
 // Porta OR e XOR
 for(let i = 38; i >= -38; i--) {

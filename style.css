@@ -82,3 +82,33 @@ html, body, main, section {
     margin-top: 0.75rem;
     margin-bottom: 0.75rem
 }
+
+/* Portas */
+.pdiv {
+    cursor: pointer;
+    margin: 0px auto;
+    height: 100px;
+    background: orange;
+} .and {
+    clip-path: polygon(var(--and));
+    width: 100px;
+} .or {
+    clip-path: polygon(var(--or));
+    width: 120px;
+} .xor {
+    clip-path: polygon(var(--xor));
+    width: 140px;
+} .nand {
+    clip-path: polygon(var(--nand));
+    width: 114px;
+} .nor {
+    clip-path: polygon(var(--nor));
+    width: 134px;
+} .xnor {
+    clip-path: polygon(var(--xnor));
+    width: 154px;
+} .not {
+    clip-path: polygon(var(--not));
+    width: 104px;
+    height: 70px;
+}
