@@ -1,0 +1,84 @@
+html, body, main, section {
+    height: 100%;
+} main {
+    display: -webkit-box;
+    width: 100%;
+    color: rgb(207, 185, 191);
+} body, p {
+    margin: 0;
+} body {
+    overflow: hidden;
+    user-select: none;
+} .list {
+    text-align: center;
+    font-family: Raleway;
+    width: 250px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: rgb(119, 59, 76)
+} .list::-webkit-scrollbar {
+    width: 0.9rem
+} .list::-webkit-scrollbar-thumb {
+    background: rgb(152, 88, 106);
+    border: 0.2rem solid rgb(119, 59, 76)
+} .list p {
+    margin: 0.5rem 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+} .space {
+    overflow: auto;
+    position: relative;
+    width: calc(100% - 250px);
+    background: rgb(75, 37, 48)
+} .space::-webkit-scrollbar {
+    width: 0.8rem;
+    height: 0.8rem;
+} .space::-webkit-scrollbar-thumb {
+    background: rgb(160, 112, 125);
+    border: 0.15rem solid rgb(75, 37, 48)
+} .space::-webkit-scrollbar-corner {
+    background: rgb(75, 37, 48)
+} polygon, circle {
+    cursor: pointer;
+} body > svg {
+    position: absolute;
+} main svg {
+    overflow: visible;
+} main svg, .items {
+    filter: brightness(1) contrast(1) drop-shadow(rgb(0,0,0,0.3) 2px 2px 0px);
+    transition: filter 0.3s ease
+} .message {
+    width: 100%;
+    padding: 0.5rem;
+    text-align: center;
+    position: absolute;
+    height: min-content;
+    font-family: Rubik;
+    font-size: 1rem;
+    opacity: 1;
+    z-index: 3;
+    bottom: 0px;
+    background: rgb(39, 18, 25);
+    transition: opacity 0.3s ease
+} .items {
+    font-family: Quicksand;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 0 auto;
+    background: linear-gradient(rgb(207 185 191), rgb(198 153 165))
+} .origem {
+    width: 35.5px;
+    height: 35.5px;
+} .destino {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%
+} .list div {
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem
+}

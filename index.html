@@ -5,132 +5,76 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portas lógicas</title>
-    <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Raleway|Quicksand|Rubik">
+    <link rel=stylesheet href="style.css">
 </head>
-<style>
-    html, body, main, section {
-        height: 100%;
-    } main {
-        display: -webkit-box;
-        width: 100%;
-        color: white;
-    } body, p {
-        margin: 0;
-    } .list {
-        text-align: center;
-        font-family: Raleway;
-        width: 250px;
-        background: rgb(100, 100, 100)
-    } .list p {
-        margin: 0.5rem 0;
-        font-size: 1.2rem;
-        font-weight: bold;
-    } .space {
-        width: calc(100% - 250px);
-        background: rgb(70, 70, 70)
-    } polygon {
-        cursor: pointer;
-        fill: white;
-    } svg {
-        margin: 0.5rem 0;
-        filter: drop-shadow(rgb(0,0,0,0.3) 2px 2px 0px)
-    }
-</style>
 <body>
     <main>
+        <section class=message style="opacity: 0; left: -100%"></section>
         <section class=list>
+            <p>Selecione outros items</p>
+            <div class="origem items"></div>
+            <div class="destino items"></div>
             <p>Selecione uma porta</p>
-            <div>
+            <div class=teste>
+                <p>TESTE</p>
+            </div>
+            <div> <!-- AND -->
                 <svg width=100 height=100>
-                    <polygon></polygon>
+                    <defs>
+                        <linearGradient id=G x1=0% y1=0% x2=0% y2=100%>
+                            <stop offset=0% style="stop-color: rgb(190 145 160); stop-opacity: 1" />
+                            <stop offset=100% style="stop-color: rgb(159 112 125); stop-opacity: 1" />
+                        </linearGradient>
+                        <polygon fill="url(#G)" id=p0></polygon> <!--Porta AND-->
+                        <polygon fill="url(#G)" id=p1></polygon> <!--Porta OR-->
+                        <polygon fill="url(#G)" id=p2></polygon> <!--Porta XOR-->
+                        <polygon fill="url(#G)" id=p3></polygon> <!--Porta NAND-->
+                        <polygon fill="url(#G)" id=p4></polygon> <!--Porta NOR-->
+                        <polygon fill="url(#G)" id=p5></polygon> <!--Porta XNOR-->
+                        <polygon fill="url(#G)" id=p6></polygon> <!--Porta NOT -->
+                    </defs>
+                    <use href="#p0"></use>
                 </svg>
             </div>
-            <div>
+            <div> <!-- OR -->
                 <svg width=120 height=100>
-                    <polygon></polygon>
+                    <use href="#p1"></use>
                 </svg>
             </div>
-            <div>
-                <svg width=100 height=80>
-                    <polygon></polygon>
+            <div> <!-- XOR -->
+                <svg width=140 height=100>
+                    <use href="#p2"></use>
+                </svg>
+            </div>
+            <div> <!-- NAND -->
+                <svg width=114 height=100>
+                    <use href="#p3"></use>
+                </svg>
+            </div>
+            <div> <!-- NOR -->
+                <svg width=134 height=100>
+                    <use href="#p4"></use>
+                </svg>
+            </div>
+            <div> <!-- XNOR -->
+                <svg width=154 height=100>
+                    <use href="#p5"></use>
+                </svg>
+            </div>
+            <div> <!-- NOT -->
+                <svg width=104 height=70>
+                    <use href="#p6"></use>
                 </svg>
             </div>
         </section>
         <section class=space>
-
+            <svg width=20 height=20>
+                <use href="#p0"></use>
+            </svg>
         </section>
     </main>
 </body>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script>
-    const pi = Math.PI
-    let P = new Array(
-        new Array( // AND
-            [0, 0], [0, 100]
-        ), new Array( // OR
-            [0, 0]
-        ), new Array( // NOT
-            [0, 0], [100, 40], [0, 80]
-        )
-    )
-    /* DEFINIR COORDENADAS DOS PONTOS DOS POLÍGONOS */
-
-    /* Porta AND */
-    for(let i = -90; i <= 90; i++) {
-        const ang = i*pi/180
-        P[0].push([50 + 50*Math.cos(ang), 50 - 50*Math.sin(ang)])
-    }
-    /* Porta OR */
-    for(let i = 35; i >= -35; i--) {
-        const ang = i*pi/180
-        P[1].push([-62 + 80*Math.cos(ang), 50 - 80*Math.sin(ang)])
-    }
-    let Y = []
-    for(let i = 1; i <= 120; i++) {
-        Y.push(Math.exp(2*(i - 120)/50))
-    }
-    Y.forEach((E, I) => {
-        P[1].push([I + 1, 100 - 50*E])
-    });
-    for(let I = 119; I >= 1; I--) {
-        P[1].push([I, 50*Y[I - 1]])
-    }
-
-    /* FUNÇÕES IMPORTANTES */
-    let setP = (E, S, polyg) => {
-        E.forEach(e => {
-            let p = S.createSVGPoint()
-            p.x = e[0]
-            p.y = e[1]
-            polyg.points.appendItem(p)
-        })
-    }
-
-    /* VARIÁVEIS IMPORTANTES */
-
-    let svg = $("svg"),
-    polyg = $("polygon"),
-    main = $("main")
-    P.forEach((E, I) => {
-        const S = svg[I], p1 = polyg[I]
-        /* Inserir pontos */
-        setP(E, S, p1)
-
-        /* Adicionar funções aos polígonos */
-        $(p1).on("mousedown", function() {
-            let newS = document.createElement("svg")
-            let newP = document.createElement("polygon")
-            newS.appendChild(newP)
-            document.body.insertBefore(newS, main[0])
-
-            //setP(E, newS, newP)
-            $(window).on("mousemove", function() {
-                //console.log("Get port")
-            });
-            $(window).on("mouseup", function() {
-                $(window).off()
-            })
-        });
-    })
-</script>
+<script src="index.js"></script>
 </html>
