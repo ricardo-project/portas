@@ -8,7 +8,9 @@ html, body, main, section {
     margin: 0;
 } body {
     overflow: hidden;
-    user-select: none;
+   user-select: none;
+} svg {
+    overflow: visible
 } .list {
     text-align: center;
     font-family: Raleway;
@@ -21,10 +23,12 @@ html, body, main, section {
 } .list::-webkit-scrollbar-thumb {
     background: rgb(152, 88, 106);
     border: 0.2rem solid rgb(119, 59, 76)
-} .list p {
+} .list > p {
     margin: 0.5rem 0;
     font-size: 1.2rem;
     font-weight: bold;
+} .list > div {
+    filter: drop-shadow(2px 4px 6px rgb(0,0,0,0.3))
 } .space {
     overflow: auto;
     position: relative;
@@ -38,15 +42,6 @@ html, body, main, section {
     border: 0.15rem solid rgb(75, 37, 48)
 } .space::-webkit-scrollbar-corner {
     background: rgb(75, 37, 48)
-} polygon, circle {
-    cursor: pointer;
-} body > svg {
-    position: absolute;
-} main svg {
-    overflow: visible;
-} main svg, .items {
-    filter: brightness(1) contrast(1) drop-shadow(rgb(0,0,0,0.3) 2px 2px 0px);
-    transition: filter 0.3s ease
 } .message {
     width: 100%;
     padding: 0.5rem;
@@ -61,16 +56,19 @@ html, body, main, section {
     background: rgb(39, 18, 25);
     transition: opacity 0.3s ease
 } .items {
+    background: linear-gradient(rgb(207 185 191), rgb(198 153 165))
+} .items, .pdiv {
+    color: white;
+    cursor: pointer;
+    margin: 0 auto;
+    font-size: 1.5rem;
+    font-weight: bold;
     font-family: Quicksand;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    font-size: 1.5rem;
-    font-weight: bold;
-    cursor: pointer;
-    margin: 0 auto;
-    background: linear-gradient(rgb(207 185 191), rgb(198 153 165))
+    filter: brightness(1) contrast(1);
+    transition: filter 0.3s ease
 } .origem {
     width: 35.5px;
     height: 35.5px;
@@ -88,7 +86,9 @@ html, body, main, section {
     cursor: pointer;
     margin: 0px auto;
     height: 100px;
-    background: orange;
+    background: linear-gradient(rgb(190 145 160), rgb(159 112 125));
+} .pdiv {
+    font-size: 1rem
 } .and {
     clip-path: polygon(var(--and));
     width: 100px;
@@ -111,4 +111,20 @@ html, body, main, section {
     clip-path: polygon(var(--not));
     width: 104px;
     height: 70px;
+}
+
+.and p {
+    margin-right: 6px
+} .or p {
+    margin-left: 4px
+} .xor p {
+    margin-left: 22px
+} .nand p {
+    margin-right: 16px
+} .nor p {
+    margin-right: 10px
+} .xnor p {
+    margin-left: 14px
+} .not p {
+    margin-right: 34px
 }
