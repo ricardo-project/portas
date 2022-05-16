@@ -1,52 +1,46 @@
 const pi = Math.PI
 
 /* VARIÁVEIS IMPORTANTES */
-let svg = $(".list svg"),
-polyg = $("polygon"),
+let pdiv = $(".list .pdiv"),
 main = $("main"),
 html = $("html")[0],
 style = $("style"),
-//P = new Array([], [], [], [], [], [], []),
 namep = new Array("and", "or", "xor", "nand", "nor", "xnor", "not"),
-pdiv = new Array(
-    "0px 0px, 0px 100px",
-    "",
-    "",
-    "0px 0px, 0px 100px",
-    "",
-    "",
-    ""
-),
 TXT = ["1", "‒"],
 spc = $(".space"),
 SVG = spc.find("svg"),
 Items = $(".items"),
 M = $(".message"),
+P = new Array([], [], [], [], [], [], []),
 itemsSlct = [],
 allI = new Array(
     [], //---> Portas
     [], //---> Origem
     [] //---> Destino
-), /*addORXOR = function(i, t) {
-    const ang = i*pi/180, x = -62 + 79.6*Math.cos(ang), y = 50 - 79.6*Math.sin(ang)
-    hSVG[1] += t + x + "," + y
-    hSVG[2] += t + (x + 20) + "," + y
-},*/ ball = (x, y) => {
+), ball = (x, y) => {
     let b = []
     for(let i = 180; i >= -180; i -= 10) {
         const ang = i*pi/180
         const X = x + 7*Math.cos(ang), Y = y + 7*Math.sin(ang)
         b.push([X, Y])
     } return b
-    //return "<circle fill='url(#G)' cx=" + x + " cy=" + y + " r=7></circle>"
 }, changeP = (S, dX, dY) => {
     const V = new Array(dX, dY)
     S.css("left", V[0])
     S.css("top", V[1])
     return V
-}, functMove = (event, W, H, html, bC, cond, n) => {
+}, createConex = (x1, y1, x2, y2) => {
+    let line = "0,0 20,0 20," + (y2 - y1) + " " + (x2 - x1) + "," + (y2 - y1)
+    let htmlC = `<svg style='position: absolute; left: ` + x1 + `px; top: ` + y1 + `px'>
+        <polyline points='` + line + `' style='cursor: pointer; fill: none; stroke: white; stroke-width: 2px'></polyline>
+    </svg>`
+    let newC = $(htmlC)
+    newC.prependTo(spc)
+}, functMove = (event, e, content, bC, n) => {
+    const W = e.width(),
+    H = e.height()
     if(event.which == 1) {
-        let newI = $(html[0] + " style='opacity: 0.5; position: absolute; z-index: 2'>" + html[1]),
+        let newI = $("<div class='" + e.attr("class") + "' style='opacity: 0.5; position: absolute; z-index: 2'>" + content + "</div>"),
         posit = changeP(newI, event.clientX - W/2, event.clientY - H/2)
         newI.prependTo($(document.body))
         $(window).on("mousemove.functW", (e) => posit = changeP(newI, e.clientX - W/2, e.clientY - H/2));
@@ -64,15 +58,11 @@ allI = new Array(
                 } newI.css("left", newL)
                 newI.css("top", newT)
                 newI.css("opacity", "")
-                let Item
-                if(cond) {
-                    Item = newI.children()
-                    $(newI).css("z-index", "")
-                } else {
-                    Item = newI
+                if(!n) {
+                    newI.css("z-index", 1)
                 } let qtd = allI[n].length
                 allI[n].push(newI)
-                Item.on("mousedown", function(Event) {
+                newI.on("mousedown", function(Event) {
                     let Posit,
                     functPX = () => {},
                     functPY = () => {}
@@ -134,8 +124,15 @@ allI = new Array(
                                     }
                                 }); if(found) return;
                             }
+                            const T = parseFloat(newI.css("top")),
+                            L = parseFloat(newI.css("left"))
+                            console.log(T, L)
                             $.each(itemsSlct, (I, E) => {
-                                allI[E[0]][E[1]].css("filter", "")
+                                const elem = allI[E[0]][E[1]],
+                                t = parseFloat(elem.css("top")),
+                                l = parseFloat(elem.css("left"))
+                                elem.css("filter", "")
+                                createConex(l, t, L, T)
                             }); itemsSlct = new Array()
                         } else if(!alt && n !== 2) { //---> Selecionar o início (NÃO pode ser destino)
                             let condNotSlct = true
@@ -174,9 +171,10 @@ allI = new Array(
     false, //---> Ctrl + Clique
     false, //---> Ctrl + Alt + Clique (b. esquerdo)
     false //---> Shift + Clique (b. esquerdo): Mude a carga da origem
-], setM
+], setM,
+newStyle = ":root {"
 
-/*$(window).on("keydown", event => {
+$(window).on("keydown", event => {
     const alt = event.altKey,
     ctrl = event.ctrlKey,
     shift = event.shiftKey
@@ -192,19 +190,16 @@ allI = new Array(
         condM[2] = true
         functShowM("<b>Shift + Clique (b. esquerdo)</b>: Mude a carga da origem")
     }
-})*/
+})
+
+/* CRIANDO O FORMATO DAS PORTAS */
 
 // Porta AND e NAND
-//P[0] = P[0].concat([ [0,0], [0,100] ])
+P[0] = new Array([0, 0], [0, 100])
 for(let i = -90; i <= 90; i++) {
     const ang = i*pi/180
-    pdiv[0] += ", " + (50 + 50*Math.cos(ang)) + "px " + (50 - 50*Math.sin(ang)) + "px"
-} style.html(`
-    :root {
-        --and: ` + pdiv[0] + `
-    }`)
-
-P[3] = P[0].slice(0, 92).concat(ball(107, 50), P[0].slice(94, P[0].length))
+    P[0].push([50 + 50*Math.cos(ang), 50 - 50*Math.sin(ang)])
+} P[3] = P[0].slice(0, 92).concat(ball(107, 50), P[0].slice(94, P[0].length))
 
 // Porta OR e XOR
 for(let i = 38; i >= -38; i--) {
@@ -253,19 +248,19 @@ P[6] = new Array([0, 70]).concat(ball(97, 35), new Array([0, 0]))
 
 /* FUNÇÕES DE MOVIMENTO PARA OS ITENS DO MENU */
 
-$.each(svg, (I, E) => {
-    const e = $(E), W = e.width(), H = e.height()
-    $.each(P[I], (i, elem) => {
-        const newp = svg[0].createSVGPoint()
-        newp.x = elem[0]
-        newp.y = elem[1]
-        polyg[I].points.appendItem(newp)
-    })
+$.each(pdiv, (I, E) => {
+    const e = $(E),
+    actp = P[I],
+    Name = namep[I]
+    newStyle += "--" + Name + ":" + actp[0][0] + "px " + actp[0][1] + "px"
+    for(let i = 1; i < actp.length; i++) {
+        newStyle += ", " + actp[i][0] + "px " + actp[i][1] + "px"
+    } newStyle += ";"
     /* Inserir pontos */
-    e.find("use").on("mousedown", (event) => functMove(event, W, H, ["<svg width=" + W + " height=" + H, "<use href=#p" + I + "></use></svg>"], "brightness(0.75) contrast(1.3)", true, 0))
-})
+    e.on("mousedown", (event) => functMove(event, e, "<p>" + Name.toUpperCase() + "</p>", "brightness(0.75) contrast(1.3)", 0))
+}); style.html(newStyle)
 
 $.each(Items, (I, E) => {
     const e = $(E)
-    e.on("mousedown", (event) => functMove(event, e.width(), e.height(), ["<div class='" + e.attr("class") + "'", TXT[I] + "</div>"], "brightness(0.6) contrast(1.6)", false, I + 1))
+    e.on("mousedown", (event) => functMove(event, e, TXT[I], "brightness(0.6) contrast(1.6)", I + 1))
 })
