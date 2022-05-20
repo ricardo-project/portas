@@ -6,7 +6,7 @@ main = $("main"),
 html = $("html")[0],
 style = $("style"),
 namep = new Array("and", "or", "xor", "nand", "nor", "xnor", "not"),
-TXT = ["1", "‒"],
+TXT = ["1", "-"],//‒"],
 spc = $(".space"),
 SVG = spc.find("svg"),
 Items = $(".items"),
@@ -16,8 +16,36 @@ itemsSlct = [],
 allI = new Array(
     [], //---> Portas
     [], //---> Origem
-    [] //---> Destino
-), ball = (x, y) => {
+    [], //---> Destino
+    [] //---> Linhas entre portas/origens e portas/destinos
+), /*objItem = new Array(
+    (item) => {
+        return { //---> Portas
+            elem: item,
+            E: [],
+            S: null,
+            funct: []
+        }
+    }, (item) => { //---> Origem
+        return {
+            elem: item,
+            S: null,
+            funct: null
+        }
+    }, (item) => { //---> Destino
+        return {
+            elem: item,
+            E: null,
+            funct: null
+        }
+    }, (item) => { //---> Linhas entre portas/origens e portas/destinos
+        return {
+            elem: item,
+            E: null,
+            S: null
+        }
+    }
+),*/ ball = (x, y) => {
     let b = []
     for(let i = 180; i >= -180; i -= 10) {
         const ang = i*pi/180
@@ -29,13 +57,30 @@ allI = new Array(
     S.css("left", V[0])
     S.css("top", V[1])
     return V
-}, createConex = (x1, y1, x2, y2) => {
-    let line = "0,0 20,0 20," + (y2 - y1) + " " + (x2 - x1) + "," + (y2 - y1)
-    let htmlC = `<svg style='position: absolute; left: ` + x1 + `px; top: ` + y1 + `px'>
-        <polyline points='` + line + `' style='cursor: pointer; fill: none; stroke: white; stroke-width: 2px'></polyline>
-    </svg>`
-    let newC = $(htmlC)
-    newC.prependTo(spc)
+}, newLine = (listP) => {
+    let line = listP[0][0] + "," + listP[0][1]
+    for(let i = 1; i < listP.length; i++) {
+        const actp = listP[i]
+        line += " " + actp[0] + "," + actp[1]
+    } return line
+}, createConex = function(values1, values2, q) {
+    const { x1, y1, w1, h1 } = values1,
+          { x2, y2, w2, h2 } = values2
+    let xn = x1 + w1 - 10,
+        yn = y1 + h1/2,
+        Yn = y2 + h2*q
+    let line = newLine(new Array(
+        [xn, yn],
+        [xn + 30, yn],
+        [xn + 30, Yn],
+        [x2 + 30, Yn]
+    ))
+    const newL = $(document.createElementNS('http://www.w3.org/2000/svg', 'polyline'));
+    newL.attr('points', line);
+    newL.appendTo(SVG)
+    return newL
+}, changeConexFunct = function(elem1, elem2, line) {
+    console.log(elem1, elem2, line)
 }, functMove = (event, e, content, bC, n) => {
     const W = e.width(),
     H = e.height()
@@ -58,10 +103,16 @@ allI = new Array(
                 } newI.css("left", newL)
                 newI.css("top", newT)
                 newI.css("opacity", "")
-                if(!n) {
-                    newI.css("z-index", 1)
-                } let qtd = allI[n].length
-                allI[n].push(newI)
+                let qtd = allI[n].length
+                let objItem = {
+                    elem: newI
+                }; if(!n) {
+                    Object.assign(objItem, {
+                        funct: [],
+                        E: []
+                    })
+                } allI[n].push(objItem)
+                //allI[n].push(objItem[n](newI))
                 newI.on("mousedown", function(Event) {
                     let Posit,
                     functPX = () => {},
@@ -125,14 +176,17 @@ allI = new Array(
                                 }); if(found) return;
                             }
                             const T = parseFloat(newI.css("top")),
-                            L = parseFloat(newI.css("left"))
-                            console.log(T, L)
+                            L = parseFloat(newI.css("left")),
+                            fract = 1/(itemsSlct.length + 1)
                             $.each(itemsSlct, (I, E) => {
-                                const elem = allI[E[0]][E[1]],
+                                const elem = allI[E[0]][E[1]].elem,
                                 t = parseFloat(elem.css("top")),
-                                l = parseFloat(elem.css("left"))
+                                l = parseFloat(elem.css("left")),
+                                w = elem.width(),
+                                h = elem.height()
                                 elem.css("filter", "")
-                                createConex(l, t, L, T)
+                                let polyLine = createConex({ x1: l, y1: t, w1: w, h1: h }, { x2: L, y2: T, w2: W, h2: H }, (I + 1)*fract)
+                                changeConexFunct(elem, newI, polyLine)
                             }); itemsSlct = new Array()
                         } else if(!alt && n !== 2) { //---> Selecionar o início (NÃO pode ser destino)
                             let condNotSlct = true
@@ -148,9 +202,7 @@ allI = new Array(
                                 itemsSlct.push([n, qtd])
                             }
                         }
-                    } /*else if(Event.which == 3) {
-                        newI.remove()
-                    }*/
+                    }
                 })
             } else {
                 newI.remove()
