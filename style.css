@@ -53,6 +53,9 @@ html, body, main, section {
 } .introd input:hover {
     background: rgb(128, 35, 66);
     box-shadow: rgb(90, 15, 40) -3px -3px 0px inset;
+   user-select: none;
+} svg {
+    overflow: visible
 } .list {
     text-align: center;
     font-family: Raleway;
@@ -71,6 +74,8 @@ html, body, main, section {
     font-weight: bold;
 } .list > div, .space {
     filter: drop-shadow(2px 4px 6px rgb(0,0,0,0.25))
+} .list > div {
+    filter: drop-shadow(2px 4px 6px rgb(0,0,0,0.3))
 } .space {
     overflow: auto;
     position: relative;
