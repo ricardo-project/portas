@@ -4,11 +4,55 @@ html, body, main, section {
     display: -webkit-box;
     width: 100%;
     color: rgb(207, 185, 191);
-} body, p {
+} body, p, h1 {
     margin: 0;
 } body {
     overflow: hidden;
     user-select: none;
+    background: rgb(75, 37, 48)
+} svg {
+    overflow: visible
+} .introd {
+    position: absolute;
+    z-index: 4;
+    opacity: 1;
+    width: 100%;
+    display: -webkit-box;
+    background: rgb(39, 18, 25, 0.9);
+    transition: opacity 0.3s ease
+} .introd div {
+    text-align: center;
+    margin: auto
+} .introd h1 {
+    font-size: 80px;
+    font-family: Satisfy;
+    background: rgb(163,65,98,0.5) url(wave.png);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(rgb(0,0,0,0.3) 3px 3px 0px);
+    animation: moveWave 8s infinite linear
+} .introd p {
+    font-family: Rubik;
+    font-size: 18px;
+    text-shadow: rgb(0,0,0,0.3) 2px 2px 0px;
+    margin-bottom: 30px;
+    color: rgb(163,65,98)
+} .introd input {
+    font-size: 22px;
+    font-family: Rubik;
+    padding: 12px;
+    border: none;
+    border-radius: 24px;
+    cursor: pointer;
+    background: rgb(146, 50, 82);
+    box-shadow: rgb(110, 25, 53) -3px -3px 0px inset;
+    color: rgb(209, 132, 158);
+    margin: 0px auto;
+    transition: all 0.3s ease
+} .introd input:hover {
+    background: rgb(128, 35, 66);
+    box-shadow: rgb(90, 15, 40) -3px -3px 0px inset;
 } .list {
     text-align: center;
     font-family: Raleway;
@@ -21,15 +65,16 @@ html, body, main, section {
 } .list::-webkit-scrollbar-thumb {
     background: rgb(152, 88, 106);
     border: 0.2rem solid rgb(119, 59, 76)
-} .list p {
+} .list > p {
     margin: 0.5rem 0;
     font-size: 1.2rem;
     font-weight: bold;
+} .list > div, .space {
+    filter: drop-shadow(2px 4px 6px rgb(0,0,0,0.25))
 } .space {
     overflow: auto;
     position: relative;
     width: calc(100% - 250px);
-    background: rgb(75, 37, 48)
 } .space::-webkit-scrollbar {
     width: 0.8rem;
     height: 0.8rem;
@@ -38,15 +83,6 @@ html, body, main, section {
     border: 0.15rem solid rgb(75, 37, 48)
 } .space::-webkit-scrollbar-corner {
     background: rgb(75, 37, 48)
-} polygon, circle {
-    cursor: pointer;
-} body > svg {
-    position: absolute;
-} main svg {
-    overflow: visible;
-} main svg, .items {
-    filter: brightness(1) contrast(1) drop-shadow(rgb(0,0,0,0.3) 2px 2px 0px);
-    transition: filter 0.3s ease
 } .message {
     width: 100%;
     padding: 0.5rem;
@@ -61,19 +97,22 @@ html, body, main, section {
     background: rgb(39, 18, 25);
     transition: opacity 0.3s ease
 } .items {
+    background: linear-gradient(rgb(207 185 191), rgb(198 153 165))
+} .items, .pdiv {
+    color: white;
+    cursor: pointer;
+    margin: 0 auto;
+    font-size: 1.5rem;
+    font-weight: bold;
     font-family: Quicksand;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    font-size: 1.5rem;
-    font-weight: bold;
-    cursor: pointer;
-    margin: 0 auto;
-    background: linear-gradient(rgb(207 185 191), rgb(198 153 165))
+    filter: brightness(1) contrast(1);
+    transition: filter 0.3s ease
 } .origem {
-    width: 35.5px;
-    height: 35.5px;
+    width: 36px;
+    height: 36px;
 } .destino {
     width: 40px;
     height: 40px;
@@ -81,6 +120,11 @@ html, body, main, section {
 } .list div {
     margin-top: 0.75rem;
     margin-bottom: 0.75rem
+} polyline {
+    cursor: pointer;
+    fill: none;
+    stroke: white;
+    stroke-width: 4px
 }
 
 /* Portas */
@@ -88,7 +132,9 @@ html, body, main, section {
     cursor: pointer;
     margin: 0px auto;
     height: 100px;
-    background: orange;
+    background: linear-gradient(rgb(190 145 160), rgb(159 112 125));
+} .pdiv {
+    font-size: 1rem
 } .and {
     clip-path: polygon(var(--and));
     width: 100px;
@@ -111,4 +157,25 @@ html, body, main, section {
     clip-path: polygon(var(--not));
     width: 104px;
     height: 70px;
+}
+
+.and p {
+    margin-right: 6px
+} .or p {
+    margin-left: 4px
+} .xor p {
+    margin-left: 22px
+} .nand p {
+    margin-right: 16px
+} .nor p {
+    margin-right: 10px
+} .xnor p {
+    margin-left: 14px
+} .not p {
+    margin-right: 34px
+}
+
+@keyframes moveWave {
+    0% { background-position: 0px -10px; }
+    100% { background-position: 300px -10px; }
 }
